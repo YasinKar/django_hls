@@ -1,3 +1,4 @@
+import time
 import logging
 import sys
 from django.apps import AppConfig
@@ -11,15 +12,23 @@ class DjangoHlsConfig(AppConfig):
         import django_hls.tasks
         import django_hls.models
 
-        # Only test when celery is not running (i.e. we are running Django itself)
         if get_setting('USE_CELERY') and not any("celery" in arg for arg in sys.argv):
             from django_hls.utils import is_celery_running
-            try:
-                celery_status = is_celery_running()
-                if celery_status:
-                    logging.info("Celery is enabled and running. Workers: %s", celery_status)
-                else:
-                    raise RuntimeError("Celery is enabled, but no workers are responding.")
-            except Exception as e:
-                logging.exception("Failed to ping Celery workers.")
-                raise RuntimeError("Celery is required but not responding.") from e
+
+            max_retries = 5
+            delay_seconds = 2
+
+            for attempt in range(max_retries):
+                try:
+                    if is_celery_running():
+                        logging.info("Celery is enabled and running.")
+                        return
+                    else:
+                        logging.warning("Celery not responding, attempt %d/%d", attempt + 1, max_retries)
+                except Exception as e:
+                    logging.warning("Error checking Celery: %s", e)
+
+                time.sleep(delay_seconds)
+
+            # After retries, raise fatal error
+            raise RuntimeError("Celery is enabled but not responding after retries. App will not start.")
