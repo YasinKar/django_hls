@@ -1,0 +1,8 @@
+.idea/
+dist/
+build/
+*.egg-info
+*.pyc
+*.pyo
+*.sqlite3
+venv/

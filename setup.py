@@ -5,9 +5,9 @@ with open("./README.md", "r") as f:
 
 setup(
     name="django_hls",
-    version="1.0.0",
+    version="1.1.0",
     description="A package in Django for streaming video and audio using the HLS",
-    packages=find_packages(where="django_hls"),
+    packages=["django_hls"],
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/YasinKar/django_hls",
@@ -22,6 +22,10 @@ setup(
     install_requires=[
         "bson >= 0.5.10",
         
+        "Django>=5.2.2,<6.0",                  
+        "celery>=5.5.3,<6.0",                  
+        "ffmpeg-progress-yield>=0.12.0,<1.0", 
+        "ffmpeg-python>=0.2.0,<0.3" 
     ],
     extras_require={
         "dev": ["pytest>=7.0", "twine>=4.0.2"],

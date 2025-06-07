@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+</head>
+
+<body>
+    <div>
+        {% for course in courses %}
+        <div>
+            <h3>{{ course.title }}</h3>
+            {% for session in course.course_sessions.all %}
+            <a href="{% url 'session' session.id %}">{{ session.title }}</a>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

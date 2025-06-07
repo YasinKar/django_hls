@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7.0.11-alpine
+    container_name: redis
+
+  web:
+    build:
+      context: .
+    container_name: web
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+
+  celery:
+    build:
+      context: .
+    container_name: celery
+    command: celery -A example worker -l info
+    volumes:
+      - .:/app/
+    depends_on:
+      - redis
+      - web
