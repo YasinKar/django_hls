@@ -5,9 +5,9 @@ with open("./README.md", "r") as f:
 
 setup(
     name="django_hls",
-    version="1.2.0",
+    version="1.5.8",
     description="django-hls is a reusable Django application for streaming video and audio using the HLS",
-    packages=["django_hls"],
+    packages=find_packages(),
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/YasinKar/django_hls",

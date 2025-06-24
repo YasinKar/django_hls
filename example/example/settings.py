@@ -134,10 +134,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 HLS_SEGMENT_DURATION = 10
-HLS_M3U8_FILE_NAME = 'output.m3u8'
 HLS_USE_CELERY = True
+HLS_CELERY_QUEUE = 'hls_generator'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+from kombu import Queue
+
+CELERY_TASK_QUEUES = (
+    Queue('hls_generator'),
+)
+
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER', 'redis://redis:6379/0')
 CELERY_RESULT_BACKEND = os.environ.get('CELERY_BACKEND', 'redis://redis:6379/1')
+

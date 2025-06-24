@@ -21,7 +21,7 @@ services:
     build:
       context: .
     container_name: celery
-    command: celery -A example worker -l info
+    command: celery --app=example worker -l INFO -Q hls_generator
     volumes:
       - .:/app/
     depends_on:
