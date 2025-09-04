@@ -19,6 +19,7 @@ class Course(models.Model):
     def __str__(self):
         return self.title
     
+# this will add media, hls_file, key_file fields to model
 class CourseSession(DjangoHLSMedia):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_sessions')
     title = models.CharField(max_length=250)
