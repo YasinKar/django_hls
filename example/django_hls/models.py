@@ -22,7 +22,7 @@ class HLSMedia(models.Model):
             filename,
         )
 
-    file = models.FileField(upload_to=upload_to_path)
+    file = models.FileField(upload_to=upload_to_path, max_length=400)
 
 
 class DjangoHLSMedia(models.Model):
@@ -34,8 +34,8 @@ class DjangoHLSMedia(models.Model):
     def upload_to_path(instance, filename):
         return os.path.join("django_hls/hls", os.path.basename(instance.media.name), filename)
 
-    hls_file = models.FileField(upload_to=upload_to_path, blank=True, null=True)
-    key_file = models.FileField(upload_to=upload_to_path, blank=True, null=True)
+    hls_file = models.FileField(upload_to=upload_to_path, blank=True, null=True, max_length=400)
+    key_file = models.FileField(upload_to=upload_to_path, blank=True, null=True, max_length=400)
     generating_hls = False
 
     def save(self, *args, **kwargs):
